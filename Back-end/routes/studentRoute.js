@@ -8,14 +8,6 @@ router.get("/", (req, res) => {
     .catch((err) => res.status(400).json("Error:" + err));
 });
 
-// //Create a new students
-// router.post('/pages',(req,res)=>{
-//     const {fullName,studentId,email,contactNumber,combination,password}=req.body;
-//     const newStudent = {fullName:fullName,studentId:studentId,email:email,contactNumber:contactNumber,combination:combination,password:password};
-//     newStudent.save;
-//     res.status(201).json(newStudent);
-// });
-
 //User login
 /*router.post('/pages/login',(req,res)=>{
     const {email,password} = req.body
@@ -25,7 +17,7 @@ router.get("/", (req, res) => {
     }
     res.status(200).json({message:'Login sucessful',user});
 })*/
-//Signup...............................................................
+//Signup  - use to add a student to the system......checked..................................................
 router.route("/Signup").post((req, res) => {
   // const fullName =req.body.fullName;
   // const studentId = req.body.studentId;
