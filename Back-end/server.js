@@ -1,14 +1,17 @@
 const express = require('express');
 const mongoose = require('mongoose');
-
+const cors = require ('cors');
 require('dotenv').config();
 
 const app = express();
 const port = process.env.PORT || 5000;
 
+app.use(cors());
+app.use(express.json());
+
 mongoose.connect(process.env.MONGO_URI, {
   useNewUrlParser: true,
-  useUnifiedTopology: true,
+  useUnifiedTopology: true
 });
 
 //Connection to database checking
@@ -19,50 +22,26 @@ db.once('open', () => {
 });
 
 app.get('/', (req, res) => {
+  res.send("HEllo")
   // Render your home page component here
-  res.render('Home'); // Assuming you have a 'home' component
+  // res.render('Home'); // Assuming you have a 'home' component
 });
 
 
 //---------------------------------------------------------------------------------------------------
 
 // Import your user model
-const student = require('./models/student').default; // Assuming your model is in a models folder
-/*student.findOne({ email:  }).then(() => {
-  // Handle user data
-});*/
+//const student = require('./models/student').default; // Assuming your model is in a models folder
 
-// User signup POST method
-app.post('/Signup', async (req, res) => {
-  try {
-    // Extract user information from the request body
-    const { fullName,
-      studentId,
-      email,
-      contactNumber,
-      combination,
-      password} = req.body;
+const studentRouter = require('./routes/studentRoute');
+//const academicStaffRouter = require('./routes/academicStaffRoute');
 
-    // Create a new user object
-     student = new student({  fullName,
-      studentId,
-      email,
-      contactNumber,
-      combination,
-      password });
 
-    // Save the user to the database
-    await student.save();
+app.use('/student',studentRouter);
+//app.use('/academicStaff',academicStaffRouter);
 
-    // Send a success response
-    res.status(201).json({ message: 'User created successfully!' });
-  } catch (error) {
-    // Handle any errors that occur during signup
-    console.error(error);
-    res.status(500).json({ message: 'Error creating user' });
-  }
-});
 
+//-----------------------------------------------------------
 app.listen(port, () => {
   console.log(`Server listening on port ${port}`);
 });

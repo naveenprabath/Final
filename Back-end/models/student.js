@@ -1,14 +1,14 @@
-const bcrypt = require('bcrypt');
-const hash = bcrypt.hash; 
+//const bcrypt = require('bcrypt');
+//const hash = bcrypt.hash; 
 
-const validator = require('validator');
-const isEmail = validator.isEmail; 
+//const validator = require('validator');
+//onst isEmail = validator.isEmail; 
 
-
-const { Schema, model } = require('mongoose');
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const studentSchema = new Schema({
-    fulllName:{
+    fullName:{
         type:String,
         required:true
     },
@@ -18,13 +18,13 @@ const studentSchema = new Schema({
     },
     email:{
         type:String,
-        unique:true,
-        required:true,
-        validate:[isEmail,'invalid email']
+        //unique:true,
+        required:true
+       // validate:[isEmail,'invalid email']
     },
     contactNumber:{
         type:String,
-        required:false
+        required:true
     },
     combination:{
         type:String,
@@ -34,16 +34,18 @@ const studentSchema = new Schema({
         type:String,
         required:true
     }
+},
+{timestamps: true ,
 })
 
-studentSchema.pre('save',async function (next){
-    const student =this;
-    if(studentSchema.isModified('password')){
-        studentSchema.password = await
-        hash(student.password,10);
-    }
-    next();
-})
+// studentSchema.pre('save',async function (next){
+//     const student =this;
+//     if(studentSchema.isModified('password')){
+//         studentSchema.password = await
+//         hash(student.password,10);
+//     }
+//     next();
+// })
 
-const student = model('student',studentSchema);
+const student = mongoose.model('student',studentSchema);
 module.exports = student;
